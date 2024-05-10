@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>MVC 게시판</title>
+    <th:block th:replace="~{board/header :: headerFragment}"/>
+<script th:src="@{/js/reply.js}"></script>
+<style>
+ h1{font-size:1.5rem; text-align:center; color:#1a92b9}
+ label{font-weight:bold}
+.container {width: 60%}
+textarea{resize:none}
+</style>
+</head>
+<body>
+	<div class="container">
+		<form action="replyAction" method="post" name="boardform">
+		<input type="hidden" name="BOARD_RE_REF" th:value="${boarddata.BOARD_RE_REF}">
+		<input type="hidden" name="BOARD_RE_LEV" th:value="${boarddata.BOARD_RE_LEV}">
+		<input type="hidden" name="BOARD_RE_SEQ" th:value="${boarddata.BOARD_RE_SEQ}">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		<h1>MVC 게시판 - Reply</h1>
+		<div class="form-group">
+			<label for="board_name">글쓴이</label>
+			<input th:value="${boarddata.BOARD_NAME}"  id="board_name" name="BOARD_NAME"
+				   type="text" 		class="form-control" readOnly>
+		</div>
+
+		<div class="form-group">
+			<label for="board_subject">제목</label>
+			<textarea name="BOARD_SUBJECT" id="board_subject"
+				   class="form-control" maxlength="100"
+				   rows="1">Re:[[${boarddata.BOARD_SUBJECT}]]</textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="board_content">내용</label>
+			<textarea name="BOARD_CONTENT" id="board_content" 
+				      rows="10" 		class="form-control"></textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="board_pass">비밀번호</label>
+			<input name="BOARD_PASS" id="board_pass" 
+				   type="password" 		class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<input type=submit class="btn btn-primary" value="등록">
+			<input type=button class="btn btn-danger"  value="취소"
+				   onClick="history.go(-1)">
+	   </div>
+	    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+	</form>
+ </div>
+</body>
+</html>

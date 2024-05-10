@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>MVC 게시판</title>
+    <th:block th:replace="~{board/header :: headerFragment}"/>
+<script th:src="@{/js/modifyform.js}"></script>
+<style>
+.container {width: 60%}
+ h1{font-size:1.5rem; text-align:center; color:#1a92b9}
+#upfile{display:none}
+textarea{resize:none}
+</style>
+<script th:inline="javascript">
+	const result=[[${result}]];
+	if(result == 'passFail'){
+		alert("비밀번호가 다릅니다.")
+	}
+</script>
+</head>
+<body>
+
+	<div class="container">
+		<form action="modifyAction" method="post" name="modifyform"
+			  enctype="multipart/form-data">
+		<input type="hidden" name="BOARD_NUM" th:value="${boarddata.BOARD_NUM}">
+		<input type="hidden" name="BOARD_FILE" th:value="${boarddata.BOARD_FILE}">
+		<h1>MVC 게시판 - 수정</h1>
+		<div class="form-group">
+			<label for="board_name">글쓴이</label>
+			<input th:value="${boarddata.BOARD_NAME}" readOnly name="BOARD_NAME"
+				   type="text" 		class="form-control">
+		</div>
+
+		<div class="form-group">
+			<label for="board_subject">제목</label>
+			<textarea name="BOARD_SUBJECT" id="board_subject"
+				   class="form-control" maxlength="100"
+				   rows="1">[[${boarddata.BOARD_SUBJECT}]]</textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="board_content">내용</label>
+			<textarea name="BOARD_CONTENT" id="board_content" 
+				      rows="15" 		class="form-control">[[${boarddata.BOARD_CONTENT}]]</textarea>
+		</div>
+
+		<div class="form-group read" th:if="${boarddata.BOARD_RE_LEV==0}" >
+			<label>파일 첨부
+				<img th:src="@{/image/attach.png}" alt="파일첨부" width="20px">
+				<input type="file" id="upfile" name="uploadfile">
+			</label>
+			<span id="filevalue">[[${boarddata.BOARD_ORIGINAL}]]</span>
+			<img th:src="@{/image/remove.png}" alt="파일삭제" width="10px" class="remove">
+		</div>
+		
+		<div class="form-group">
+			<label for="board_pass">비밀번호</label>
+			<input name="BOARD_PASS" id="board_pass" 
+				   type="password" 		class="form-control" maxlength="30"
+				   size="10" 	placeholder="Enter board_pass" value="">
+		</div>
+		
+		<div class="form-group">
+			<button type=submit class="btn btn-primary">등록</button>
+			<button type=reset class="btn btn-danger" onClick="history.go(-1)">취소</button>
+	    </div>
+	     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+	</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원관리 시스템 회원수정 페이지</title>
+   <th:block th:replace="~{board/header :: headerFragment}"/>
+<meta charset="UTF-8">
+<link th:href="@{/css/join.css}" rel="stylesheet" type = "text/css">
+<style>
+
+h3 {
+	text-align: center; color: #1a92b9;
+}
+input[type=file]{
+	display:none;
+}
+</style>
+</head>
+ <body> 
+ 
+      <form name="joinform" method="post" th:action="updateProcess" enctype="multipart/form-data">                       
+         <h3>회원 정보 수정</h3>
+         <hr>
+		 <b>아이디</b>
+            <input type="text" name="id"  placeholder="Enter id" th:value="${memberinfo.id}" required readOnly>
+
+            <b>비밀번호</b>
+            <input type="password" name="pass" th:value="${memberinfo.getPassword().substring(0,4)+'****'}"  placeholder="Enter password" required readOnly>
+   			
+   			<b>이름</b>
+            <input type="text" th:value="${memberinfo.name}" name="name" maxLength="5" placeholder="Enter name" required>
+   			
+   			<b>나이</b>
+            <input type="text" th:value="${memberinfo.age}" name="age" maxLength="2" placeholder="Enter age" required>
+   			
+   			<b>성별</b>
+   			<div>
+   				<input type="radio" name="gender" value="남"><span>남자</span>
+                <input type="radio" name="gender" value="여"><span>여자</span>
+   			</div>
+   			
+   			<b>이메일 주소</b>
+            <input type="text" name="email" th:value="${memberinfo.email}" maxLength="30" placeholder="Enter email" required>
+            <span id="email_message"></span>
+            
+           
+        <div class="clearfix"> 
+          <button type="submit" class="submitbtn">수정</button>
+          <button type="reset" class="cancelbtn">취소</button>
+        </div>
+       </form>
+ <script>
+ 	//성별 체크해주는 부분
+ 	$("input[value=[[${memberinfo.gender}]]]").prop('checked',true);
+ 	
+ 	
+ 	//처음 화면 로드시 보여줄 이메일은 이미 체크 완료된 것이므로 기본 checkemail=true입니다.
+ 	let checkemail=true;
+ 	$("input[name=email]").on('keyup',
+ 			function() {
+ 		$("#email_message").empty();
+ 		//[A-Za-z0-9_]와 동일한 것이 \w
+ 		//+는 1회 이상 반복을 의미합니다. {1,}와 동일합니다.
+ 		//\w+ 는 [A-Za-z0-9_]를 1개이상 사용하라는 의미입니다.
+ 		const pattern = /^\w+@\w+[.]\w{3}$/;
+ 		const email = $(this).val();
+ 		if (!pattern.test(email)){
+ 			$("#email_message").css('color','red').html("이메일형식이 맞지 않습니다.");
+ 			checkemail=false;
+ 		}else{
+ 			$("#email_message").css('color','green').html("이메일형식에 맞습니다.");
+ 			checkemail=true;
+ 		}
+ 	});//email keyup 이벤트 처리 끝
+ 	
+ 	$('form[name=joinform]').submit(function(){
+ 		
+ 		const length=$("input[name=gender]:checked").length;
+ 		if(length != 1){
+ 			alert("남 또는 여를 선택하세요")
+ 			return false;
+ 		}
+ 		
+ 		if (!$.isNumeric($("input[name='age']").val())) {
+ 			alert("나이는 숫자를 입력하세요");
+ 			$("input[name='age']").val('').focus();
+ 			return false;
+ 		}
+ 		
+ 		if(!checkemail){
+ 			alert("email 형식을 확인하세요");
+ 			$("input[name=email]").focus();
+ 			return false;
+ 		}
+ 	})//submit()
+ 	
+
+ </script>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Member Management login system page</title>
+<link rel="icon" th:href="@{image/house.ico}">
+<link th:href="@{/css/login.css}" type="text/css" rel="stylesheet">
+<script th:src="@{/js/jquery-3.7.1.js}"></script>
+<script th:inline="javascript">
+		let result=[[${result}]];
+		let loginfail = [[${loginfail}]];
+		
+		/*회원 가입 성공 메시지 혹은 로그인 실패메시지 처리*/
+		
+		if(result == 'joinSuccess'){
+			alert("JOIN SUCCESS, CONGRATS")
+		}else if(loginfail == 'loginFailMsg') {
+				alert("ID or PASS MISSMATCH..");
+		}
+		
+		$(function(){
+			$(".join").click(function(){
+				//let url =[[@{/member/join}]]
+				//window.location.href=url;
+				
+				location.href="join";
+			});
+		})
+  </script>
+</head>
+<body>
+	<form th:action="@{/member/loginProcess}" method="post" name="loginform" >
+		<h1>로그인</h1>
+		<hr>
+		<b>Id</b>
+		<input type="text" name="id" placeholder="Enter id" id="id" required>			
+		<b>Password</b>
+       <input type="password" name="password" placeholder="Enter password" required>
+       <label>
+       <input type="checkbox" name="remember-me" style="margin-bottom:15px">remember ID
+       		
+       </label>
+       
+       <div class="clearfix">
+			<button type="submit" class="submitbtn">로그인</button>
+		    <button type="button" class="join">회원가입</button>
+       </div>
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+	</form>
+</body>
+
+</html>
