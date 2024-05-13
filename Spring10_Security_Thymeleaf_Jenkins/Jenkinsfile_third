@@ -54,8 +54,8 @@ pipeline {
             steps{
                 dir("Spring10_Security_Thymeleaf_Jenkins"){   //var/jenkins_home/workspace/pipeline_item/Spring10_Security_Thymeleaf_Jenkins/Dockerfile 위치
                     sh 'echo " Image Bulid Start"'
-                    sh 'docker build . -t $DOCKERHUB_CREDENTIALS_USR/security:$BUILD_NUMBER'  //예) 빌드 번호가 10번인 경우      도커허브_username/security:10  이름의 이미지 생성
-                    sh 'docker build . -t $DOCKERHUB_CREDENTIALS_USR/security'                          // 도커허브_username/security:latest 이름의 이미지 생성
+                    sh 'docker build . -t $DOCKERHUB_CREDENTIALS_USR/security_aws:$BUILD_NUMBER'  //예) 빌드 번호가 10번인 경우      도커허브_username/security:10  이름의 이미지 생성
+                    sh 'docker build . -t $DOCKERHUB_CREDENTIALS_USR/security_aws'                          // 도커허브_username/security:latest 이름의 이미지 생성
                 }
             }
                 post {
@@ -92,8 +92,8 @@ pipeline {
         stage('Docker hub push'){
             steps{
                 sh 'echo " docker hub push"'
-                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security:$BUILD_NUMBER'   
-                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security'
+                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security_aws:$BUILD_NUMBER'   
+                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security_aws'
             }
             post {
                 success {
@@ -110,8 +110,8 @@ pipeline {
      stage('Cleaning up'){
             steps{
                 sh 'echo " docker image rmi"'
-                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security:$BUILD_NUMBER" // docker image 제거
-                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security"              // docker image 제거
+                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security_aws:$BUILD_NUMBER" // docker image 제거
+                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security_aws"              // docker image 제거
             }
             post {
                 success {
