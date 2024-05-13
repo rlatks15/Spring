@@ -15,7 +15,7 @@ pipeline {
         stage('Git Pull') {
             steps {
                  // Get some code from a GitHub repository
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/github 아이디/web2024'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/rlatks15/web2024'
 
             }
             post {
