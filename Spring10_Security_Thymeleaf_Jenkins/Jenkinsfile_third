@@ -92,8 +92,8 @@ pipeline {
         stage('Docker hub push'){
             steps{
                 sh 'echo " docker hub push"'
-                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security:$BUILD_NUMBER'   
-                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security'
+                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security_aws:$BUILD_NUMBER'   
+                sh 'docker push  $DOCKERHUB_CREDENTIALS_USR/security_aws'
             }
             post {
                 success {
@@ -110,8 +110,8 @@ pipeline {
      stage('Cleaning up'){
             steps{
                 sh 'echo " docker image rmi"'
-                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security:$BUILD_NUMBER" // docker image 제거
-                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security"              // docker image 제거
+                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security_aws:$BUILD_NUMBER" // docker image 제거
+                sh "docker rmi $DOCKERHUB_CREDENTIALS_USR/security_aws"              // docker image 제거
             }
             post {
                 success {
